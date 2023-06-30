@@ -34,6 +34,8 @@ const mesh2 = new THREE.Mesh(new THREE.OctahedronGeometry(), material);
 const mesh3 = new THREE.Mesh(new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16), material);
 const mesh4 = new THREE.Mesh(new THREE.IcosahedronGeometry(), material);
 
+const meshes = [mesh1, mesh2, mesh3, mesh4];
+
 mesh1.position.set(2, 0, 0);
 mesh2.position.set(-1, 0, 0);
 mesh3.position.set(2, 0, -6);
@@ -59,7 +61,14 @@ function onWindowResize() {
 }
 window.addEventListener("resize", onWindowResize);
 
+// アニメーション
+const clock = new THREE.Clock();
 const animate = () => {
+  const getDeltaTime = clock.getDelta();
+  for (const mesh of meshes) {
+    mesh.rotation.x += 0.1 * getDeltaTime;
+    mesh.rotation.y += 0.12 * getDeltaTime;
+  }
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
 };
