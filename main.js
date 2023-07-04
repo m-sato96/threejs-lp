@@ -83,6 +83,15 @@ function rot() {
 }
 rot();
 
+// カーソル位置取得
+const cursor = {};
+cursor.x = 0;
+cursor.y = 0;
+window.addEventListener("mousemove", (e) => {
+  cursor.x = e.clientX / sizes.width - 0.5;
+  cursor.y = e.clientY / sizes.height - 0.5;
+});
+
 // アニメーション
 const clock = new THREE.Clock();
 const animate = () => {
@@ -91,6 +100,9 @@ const animate = () => {
     mesh.rotation.x += 0.1 * getDeltaTime;
     mesh.rotation.y += 0.12 * getDeltaTime;
   }
+  // カメラ制御
+  camera.position.x += (cursor.x * getDeltaTime) / 2;
+  camera.position.y += (-cursor.y * getDeltaTime) / 2;
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
 };
