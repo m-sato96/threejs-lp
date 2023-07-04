@@ -61,6 +61,28 @@ function onWindowResize() {
 }
 window.addEventListener("resize", onWindowResize);
 
+// ホイールアニメーション
+let speed = 0;
+let rotation = 0;
+window.addEventListener("wheel", (e) => {
+  speed += e.deltaY * 0.0002;
+});
+function rot() {
+  rotation += speed;
+  speed *= 0.9;
+  // ジオメトリ全体の回転
+  mesh1.position.x = 2 + 3.8 * Math.cos(rotation);
+  mesh1.position.z = -3 + 3.8 * Math.sin(rotation);
+  mesh2.position.x = 2 + 3.8 * Math.cos(rotation + Math.PI / 2);
+  mesh2.position.z = -3 + 3.8 * Math.sin(rotation + Math.PI / 2);
+  mesh3.position.x = 2 + 3.8 * Math.cos(rotation + Math.PI);
+  mesh3.position.z = -3 + 3.8 * Math.sin(rotation + Math.PI);
+  mesh4.position.x = 2 + 3.8 * Math.cos(rotation + 3 * (Math.PI / 2));
+  mesh4.position.z = -3 + 3.8 * Math.sin(rotation + 3 * (Math.PI / 2));
+  window.requestAnimationFrame(rot);
+}
+rot();
+
 // アニメーション
 const clock = new THREE.Clock();
 const animate = () => {
