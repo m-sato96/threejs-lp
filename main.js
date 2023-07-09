@@ -1,5 +1,8 @@
 import "./style.css";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+const loader = new GLTFLoader();
 
 const canvas = document.querySelector(".webgl");
 const sizes = {
@@ -64,6 +67,28 @@ scene.add(particles);
 const directionalLight = new THREE.DirectionalLight("#fff", 4);
 directionalLight.position.set(0.5, 1, 0);
 scene.add(directionalLight);
+
+loader.load(
+  // GLBファイルのパス
+  "/public/uploads_files_4039251_free+world.glb",
+  // 読み込みが完了したときのコールバック関数
+  (gltf) => {
+    // モデルの位置を原点に設定します
+    gltf.scene.position.set(0, 0, 0);
+    gltf.scene.scale.set(0.3, 0.3, 0.3);
+
+    // モデルをシーンに追加します
+    scene.add(gltf.scene);
+  },
+  // (オプション) プログレスイベントのハンドラー
+  (xhr) => {
+    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+  },
+  // (オプション) エラーイベントのハンドラー
+  (error) => {
+    console.log("An error happened", error);
+  }
+);
 
 // ブラウザリサイズ対応
 function onWindowResize() {
